@@ -1,0 +1,39 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+processors:
+  batch: {}
+  cumulativetodelta: {}
+exporters:
+  otlphttp:
+    endpoint: https://xso964.dynatrace-managed.com/e/3e5b445a-a801-42c2-b186-b35e08f52086/api/v2/otlp
+    headers:
+      Authorization: Api-Token dt0c01.YW77KJVFYPXJGJTHOZ4ZZBIS.K3TLO2RS2MFJWXFGJSM4EOFPIQAUB2PE55KT5LFM4FOIYXRHZT6OIG5OABJFHTZ3
+service:
+  pipelines:
+    traces:
+      receivers:
+      - otlp
+      processors:
+      - batch
+      exporters:
+      - otlphttp
+    metrics:
+      receivers:
+      - otlp
+      processors:
+      - cumulativetodelta
+      - batch
+      exporters:
+      - otlphttp
+    logs:
+      receivers:
+      - otlp
+      processors:
+      - batch
+      exporters:
+      - otlphttp

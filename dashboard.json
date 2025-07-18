@@ -1,0 +1,541 @@
+{
+  "dashboardMetadata": {
+    "name": "Jenkins Pipeline Metrics",
+    "shared": true,
+    "owner": "jenkins-admin",
+    "dashboardFilter": null
+  },
+  "tiles": [
+    {
+      "name": "master - Build Duration",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 0,
+        "width": 304,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "master - Build Duration",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "jenkins.pipeline.duration",
+          "aggregation": "avg",
+          "splitBy": [],
+          "filterBy": {
+            "entity": [],
+            "dimension": [
+              {
+                "key": "pipeline.name",
+                "value": "master"
+              }
+            ]
+          }
+        }
+      ],
+      "visualConfig": {
+        "type": "LINE",
+        "series": {
+          "A": {
+            "type": "LINE",
+            "color": "#1f77b4"
+          }
+        },
+        "yAxis": {
+          "type": "VALUE",
+          "label": "Duration (s)",
+          "min": "0"
+        }
+      }
+    },
+    {
+      "name": "master - Success Rate",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 240,
+        "left": 0,
+        "width": 304,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "master - Success Rate",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "jenkins.pipeline.success",
+          "aggregation": "count",
+          "splitBy": [
+            {
+              "key": "status"
+            }
+          ],
+          "filterBy": {
+            "entity": [],
+            "dimension": [
+              {
+                "key": "pipeline.name",
+                "value": "master"
+              }
+            ]
+          }
+        }
+      ],
+      "visualConfig": {
+        "type": "PIE",
+        "series": {
+          "A": {
+            "type": "PIE",
+            "color": "#2ca02c"
+          }
+        },
+        "limit": 5
+      }
+    },
+    {
+      "name": "master - Error Count",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 480,
+        "left": 0,
+        "width": 152,
+        "height": 114
+      },
+      "tileFilter": {},
+      "customName": "master - Error Count",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "jenkins.pipeline.errors",
+          "aggregation": "sum",
+          "splitBy": [],
+          "filterBy": {
+            "entity": [],
+            "dimension": [
+              {
+                "key": "pipeline.name",
+                "value": "master"
+              }
+            ]
+          }
+        }
+      ],
+      "visualConfig": {
+        "type": "SINGLE_VALUE",
+        "series": {
+          "A": {
+            "type": "BAR",
+            "color": "#d62728"
+          }
+        },
+        "thresholds": []
+      }
+    },
+    {
+      "name": "master - Trace Links",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 600,
+        "left": 0,
+        "width": 304,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "master - Trace Links",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "jenkins.pipeline.trace.link",
+          "aggregation": "count",
+          "splitBy": [
+            {
+              "key": "trace.id"
+            }
+          ],
+          "filterBy": {
+            "entity": [],
+            "dimension": [
+              {
+                "key": "pipeline.name",
+                "value": "master"
+              }
+            ]
+          }
+        }
+      ],
+      "visualConfig": {
+        "type": "TABLE",
+        "series": {
+          "A": {
+            "type": "COLUMN",
+            "color": "#9467bd"
+          }
+        },
+        "tableConfig": {
+          "columns": [
+            "trace.id",
+            "value"
+          ]
+        }
+      }
+    },
+    {
+      "name": "develop - Build Duration",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 0,
+        "width": 304,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "develop - Build Duration",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "jenkins.pipeline.duration",
+          "aggregation": "avg",
+          "splitBy": [],
+          "filterBy": {
+            "entity": [],
+            "dimension": [
+              {
+                "key": "pipeline.name",
+                "value": "develop"
+              }
+            ]
+          }
+        }
+      ],
+      "visualConfig": {
+        "type": "LINE",
+        "series": {
+          "A": {
+            "type": "LINE",
+            "color": "#1f77b4"
+          }
+        },
+        "yAxis": {
+          "type": "VALUE",
+          "label": "Duration (s)",
+          "min": "0"
+        }
+      }
+    },
+    {
+      "name": "develop - Success Rate",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 240,
+        "left": 0,
+        "width": 304,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "develop - Success Rate",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "jenkins.pipeline.success",
+          "aggregation": "count",
+          "splitBy": [
+            {
+              "key": "status"
+            }
+          ],
+          "filterBy": {
+            "entity": [],
+            "dimension": [
+              {
+                "key": "pipeline.name",
+                "value": "develop"
+              }
+            ]
+          }
+        }
+      ],
+      "visualConfig": {
+        "type": "PIE",
+        "series": {
+          "A": {
+            "type": "PIE",
+            "color": "#2ca02c"
+          }
+        },
+        "limit": 5
+      }
+    },
+    {
+      "name": "develop - Error Count",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 480,
+        "left": 0,
+        "width": 152,
+        "height": 114
+      },
+      "tileFilter": {},
+      "customName": "develop - Error Count",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "jenkins.pipeline.errors",
+          "aggregation": "sum",
+          "splitBy": [],
+          "filterBy": {
+            "entity": [],
+            "dimension": [
+              {
+                "key": "pipeline.name",
+                "value": "develop"
+              }
+            ]
+          }
+        }
+      ],
+      "visualConfig": {
+        "type": "SINGLE_VALUE",
+        "series": {
+          "A": {
+            "type": "BAR",
+            "color": "#d62728"
+          }
+        },
+        "thresholds": []
+      }
+    },
+    {
+      "name": "develop - Trace Links",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 600,
+        "left": 0,
+        "width": 304,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "develop - Trace Links",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "jenkins.pipeline.trace.link",
+          "aggregation": "count",
+          "splitBy": [
+            {
+              "key": "trace.id"
+            }
+          ],
+          "filterBy": {
+            "entity": [],
+            "dimension": [
+              {
+                "key": "pipeline.name",
+                "value": "develop"
+              }
+            ]
+          }
+        }
+      ],
+      "visualConfig": {
+        "type": "TABLE",
+        "series": {
+          "A": {
+            "type": "COLUMN",
+            "color": "#9467bd"
+          }
+        },
+        "tableConfig": {
+          "columns": [
+            "trace.id",
+            "value"
+          ]
+        }
+      }
+    },
+    {
+      "name": "production - Build Duration",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 0,
+        "width": 304,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "production - Build Duration",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "jenkins.pipeline.duration",
+          "aggregation": "avg",
+          "splitBy": [],
+          "filterBy": {
+            "entity": [],
+            "dimension": [
+              {
+                "key": "pipeline.name",
+                "value": "production"
+              }
+            ]
+          }
+        }
+      ],
+      "visualConfig": {
+        "type": "LINE",
+        "series": {
+          "A": {
+            "type": "LINE",
+            "color": "#1f77b4"
+          }
+        },
+        "yAxis": {
+          "type": "VALUE",
+          "label": "Duration (s)",
+          "min": "0"
+        }
+      }
+    },
+    {
+      "name": "production - Success Rate",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 240,
+        "left": 0,
+        "width": 304,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "production - Success Rate",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "jenkins.pipeline.success",
+          "aggregation": "count",
+          "splitBy": [
+            {
+              "key": "status"
+            }
+          ],
+          "filterBy": {
+            "entity": [],
+            "dimension": [
+              {
+                "key": "pipeline.name",
+                "value": "production"
+              }
+            ]
+          }
+        }
+      ],
+      "visualConfig": {
+        "type": "PIE",
+        "series": {
+          "A": {
+            "type": "PIE",
+            "color": "#2ca02c"
+          }
+        },
+        "limit": 5
+      }
+    },
+    {
+      "name": "production - Error Count",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 480,
+        "left": 0,
+        "width": 152,
+        "height": 114
+      },
+      "tileFilter": {},
+      "customName": "production - Error Count",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "jenkins.pipeline.errors",
+          "aggregation": "sum",
+          "splitBy": [],
+          "filterBy": {
+            "entity": [],
+            "dimension": [
+              {
+                "key": "pipeline.name",
+                "value": "production"
+              }
+            ]
+          }
+        }
+      ],
+      "visualConfig": {
+        "type": "SINGLE_VALUE",
+        "series": {
+          "A": {
+            "type": "BAR",
+            "color": "#d62728"
+          }
+        },
+        "thresholds": []
+      }
+    },
+    {
+      "name": "production - Trace Links",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 600,
+        "left": 0,
+        "width": 304,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "production - Trace Links",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "jenkins.pipeline.trace.link",
+          "aggregation": "count",
+          "splitBy": [
+            {
+              "key": "trace.id"
+            }
+          ],
+          "filterBy": {
+            "entity": [],
+            "dimension": [
+              {
+                "key": "pipeline.name",
+                "value": "production"
+              }
+            ]
+          }
+        }
+      ],
+      "visualConfig": {
+        "type": "TABLE",
+        "series": {
+          "A": {
+            "type": "COLUMN",
+            "color": "#9467bd"
+          }
+        },
+        "tableConfig": {
+          "columns": [
+            "trace.id",
+            "value"
+          ]
+        }
+      }
+    }
+  ]
+}

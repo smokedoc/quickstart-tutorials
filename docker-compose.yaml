@@ -17,7 +17,6 @@ services:
     networks:
       - jenkins-net
     healthcheck:
-      test: ["CMD-SHELL", "[ -f /ssh-dir/conductor_ok ] || exit 1"]
       # Checks if the conductor_ok file exists in the /ssh-dir path
       interval: 5s
       timeout: 10s
@@ -71,6 +70,9 @@ services:
     # The CASC_RELOAD_TOKEN environment variable is used by the Jenkins controller to restart the Configuration as Code (JCasc) plugin configuration.
     environment:
       - CASC_RELOAD_TOKEN=thisisnotsecure
+      - OTEL_INSTRUMENTATION_JENKINS_REMOTE_SPAN_ENABLED=true
+      - DT_OPEN_TELEMETRY_ENABLE=false
+      - LD_PRELOAD=
     # The Jenkins web interface is exposed on port 8080.
     ports:
       - "8080:8080"
@@ -93,6 +95,7 @@ services:
       interval: 5s
       timeout: 10s
       retries: 5
+
   wizard_controller:
     image: jenkins/jenkins:2.452.1
     restart: on-failure
@@ -121,7 +124,7 @@ services:
   # The healthcheck command for each agent checks if the authorized_keys file exists in the /home/jenkins/.ssh directory.
   # The /home/jenkins/.ssh directory in each agent container is mapped to the agent-ssh-dir volume on the host.
   default_agent:
-    image: jenkins/ssh-agent:6.23.0-jdk21
+    image: jenkins/ssh-agent:6.21.0-jdk21
     container_name: desktop-jenkins_agent-1
     profiles:
       - default
@@ -263,6 +266,27 @@ services:
       interval: 5s
       timeout: 10s
       retries: 5
+  multi_default_agent:
+    image: jenkins/ssh-agent:6.21.0-jdk21
+    container_name: desktop-jenkins_agent-1
+    profiles:
+      - multi
+    networks:
+      - jenkins-net
+    depends_on:
+      sidekick_service:
+        condition: service_completed_successfully # Depends on the successful completion of the sidekick_service
+      multi_jenkins_controller:
+        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f /home/jenkins/.ssh/authorized_keys ] || exit 1"]
+      # Checks if the authorized_keys file exists in the /home/jenkins/.ssh path
+      interval: 5s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - agent-ssh-dir:/home/jenkins/.ssh:ro # Mounts the agent-ssh-dir volume to the /home/jenkins/.ssh path inside the container as read-only
+  
   multi:
     image: ${IMAGE_PREFIX}/${GHCR_USERNAME}/quickstart-tutorials/jenkinsci-tutorials:node_agent_${BRANCH_SUFFIX}
     environment:
@@ -360,6 +384,33 @@ services:
       retries: 5
     volumes:
       - agent-ssh-dir:/home/jenkins/.ssh:ro # Mounts the agent-ssh-dir volume to the /home/jenkins/.ssh path inside the container as read-only
+
+  otelcol:
+    image: otel/opentelemetry-collector-contrib
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
+      - agent-ssh-dir:/home/jenkins/.ssh:ro
+    ports:
+      - "4317:4317" # OTLP gRPC receiver
+      - "4318:4318" # OTLP http receiver
+    container_name: opentelemetry-collector
+    profiles:
+      - multi
+      - node
+    networks:
+      - jenkins-net
+    depends_on:
+      sidekick_service:
+        condition: service_completed_successfully # Depends on the successful completion of the sidekick_service
+      jenkins_controller:
+        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f /home/jenkins/.ssh/authorized_keys ] || exit 1"]
+      # Checks if the authorized_keys file exists in the /home/jenkins/.ssh path
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
 volumes:
   jenkins_home: null
   empty_jenkins_home: null
