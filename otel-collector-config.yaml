@@ -10,9 +10,9 @@ processors:
   cumulativetodelta: {}
 exporters:
   otlphttp:
-    endpoint: https://xso964.dynatrace-managed.com/e/3e5b445a-a801-42c2-b186-b35e08f52086/api/v2/otlp
+    endpoint: xxx
     headers:
-      Authorization: https://github.com/smokedoc/quickstart-tutorials/security/secret-scanning/unblock-secret/302s43g8wsbvGBzFVBilTYId61l
+      Authorization: xxx
 service:
   pipelines:
     traces:
